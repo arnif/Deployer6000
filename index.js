@@ -1,6 +1,6 @@
 const gpio = require('rpi-gpio');
 const lights = require('./lights');
-const isBuildSuccess = require('./isBuildSuccess');
+const getBuildStatus = require('./getBuildStatus');
 // const execFile = require('child_process').execFile;
 
 const SWITCH_PIN = 3;
@@ -25,9 +25,9 @@ gpio.on('change', (channel, value) => {
 
   if (channel === DEPLOY_BUTTON_PIN) {
     if (readyToDeploy && !value) {
-      isBuildSuccess().then((isSuccess) => {
-        console.log('is success', isSuccess);
-        if (isSuccess) {
+      getBuildStatus().then((status) => {
+        console.log('is success', status);
+        if (status.success && !status.building) {
           console.log('DEEPLOY');
           // execFile('sh', ['deploy.sh'], (error, stdout) => {
           //   if (error) {

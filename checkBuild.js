@@ -1,14 +1,18 @@
 const lights = require('./lights');
-const isBuildSuccess = require('./isBuildSuccess');
+const getBuildStatus = require('./getBuildStatus');
 
 const exit = () => {
-  proccess.exit(); // eslint-disable-line
+  process.exit();
 };
 
-isBuildSuccess().then((isSuccess) => {
-  if (isSuccess) {
+getBuildStatus().then((status) => {
+  if (status.success) {
     lights.turnOnGreenLight(exit);
+  } else if (status.building) {
+    lights.turnOnYellowLight(exit); // TODO blink
   } else {
-    lights.turnOffGreenLight(exit);
+    lights.turnOffGreenLight();
+    lights.turnOffYellowLight();
+    lights.turnOnRedLight(exit);
   }
 });
