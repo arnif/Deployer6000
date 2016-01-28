@@ -7,8 +7,11 @@ const exit = () => {
 
 getBuildStatus().then((status) => {
   if (status.success) {
+    lights.turnOffYellowLight();
+    lights.turnOffRedLight();
     lights.turnOnGreenLight(exit);
   } else if (status.building) {
+    // only light yellow, so we can see if we are recovering from a failed build.
     lights.turnOnYellowLight(exit); // TODO blink
   } else {
     lights.turnOffGreenLight();
