@@ -18,6 +18,5 @@ const getBuildStatus = () => {
   });
   return deferred.promise;
 };
-getBuildStatus();
 
 module.exports = getBuildStatus;
